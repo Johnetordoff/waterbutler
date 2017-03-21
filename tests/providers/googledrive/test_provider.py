@@ -217,6 +217,25 @@ class TestCRUD:
 
     @pytest.mark.asyncio
     @pytest.mark.aiohttpretty
+    async def test_download_drive_without_download_permission(self, provider):
+        '''
+        This tests exsits to ensures the user receives the proper error message when attempting
+        to download a file in their drive or a public drive they have no permission to download.
+        '''
+        item = fixtures.list_file['items'][0]
+        path = WaterButlerPath('/birdie.jpg', _ids=(provider.folder['id'], item['id']))
+        metadata_url = provider.build_url('files', path.identifier)
+
+        aiohttpretty.register_json_uri('GET', metadata_url, body=fixtures.docs_file_metadata_auth_can_view)
+
+        with pytest.raises(exceptions.DownloadError) as err:
+            result = await provider.download(path)
+
+        assert str(err.value) == '403, GDrive did not provide a download link. You may not have' \
+                            ' permission to render this file.'
+
+    @pytest.mark.asyncio
+    @pytest.mark.aiohttpretty
     async def test_download_drive_revision(self, provider):
         revision = 'oldest'
         body = b'we love you conrad'
