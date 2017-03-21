@@ -175,6 +175,67 @@ def generate_list(child_id, **kwargs):
     item['id'] = str(child_id)
     return {'items': [item]}
 
+docs_file_metadata_auth_can_view = {
+
+    'alternateLink': 'https://docs.google.com/a/cos.io/presentation/d/1UdlFUBKc9L6TJvcoQQLMOiFl6aFPr7mqC65HA3t6T48/edit?usp=drivesdk',
+    'appDataContents': False,
+    'capabilities': {'canCopy': False, 'canEdit': False},
+    'copyable': False,
+    'createdDate': '2017-02-27T20:25:12.960Z',
+    'editable': False,
+    'embedLink': 'https://docs.google.com/a/cos.io/presentation/d/1UdlFUBKc9L6TJvcoQQLMOiFl6aFPr7mqC65HA3t6T48/preview',
+    'etag': '"bcIyJ9A3gXa8oTYmz6nzAjQd-lY/MTQ5MDA0MTQ3MTMzMw"',
+    'explicitlyTrashed': False,
+    'iconLink': 'https://ssl.gstatic.com/docs/doclist/images/icon_11_presentation_list.png',
+    'id': '1UdlFUBKc9L6TJvcoQQLMOiFl6aFPr7mqC65HA3t6T48',
+    'kind': 'drive#file',
+    'labels': {'hidden': False,
+               'restricted': True,
+               'starred': False,
+               'trashed': False,
+               'viewed': True},
+    'lastModifyingUser': {'displayName': 'Fitz Elliott',
+                          'emailAddress': 'fitz@cos.io',
+                          'isAuthenticatedUser': False,
+                          'kind': 'drive#user',
+                          'permissionId': '17667957036718347700'},
+    'lastModifyingUserName': 'Fitz Elliott',
+    'lastViewedByMeDate': '2017-03-20T20:23:51.537Z',
+    'markedViewedByMeDate': '1970-01-01T00:00:00.000Z',
+    'mimeType': 'application/vnd.google-apps.presentation',
+    'modifiedDate': '2017-03-20T20:24:31.333Z',
+    'ownerNames': ['Fitz Elliott'],
+    'owners': [{'displayName': 'Fitz Elliott',
+                'emailAddress': 'fitz@cos.io',
+                'isAuthenticatedUser': False,
+                'kind': 'drive#user',
+                'permissionId': '17667957036718347700'}],
+    'parents': [{'id': '0AFwCl2fPFhPoUk9PVA',
+                 'isRoot': True,
+                 'kind': 'drive#parentReference',
+                 'parentLink': 'https://www.googleapis.com/drive/v2/files/0AFwCl2fPFhPoUk9PVA',
+                 'selfLink': 'https://www.googleapis.com/drive/v2/files/1UdlFUBKc9L6TJvcoQQLMOiFl6aFPr7mqC65HA3t6T48/parents/0AFwCl2fPFhPoUk9PVA'}],
+    'quotaBytesUsed': '0',
+    'selfLink': 'https://www.googleapis.com/drive/v2/files/1UdlFUBKc9L6TJvcoQQLMOiFl6aFPr7mqC65HA3t6T48',
+    'shared': True,
+    'sharedWithMeDate': '2017-03-20T20:23:34.590Z',
+    'sharingUser': {'displayName': 'Fitz Elliott',
+                    'emailAddress': 'fitz@cos.io',
+                    'isAuthenticatedUser': False,
+                    'kind': 'drive#user',
+                    'permissionId': '17667957036718347700'},
+    'spaces': ['drive'],
+    'thumbnailLink': 'https://docs.google.com/a/cos.io/feeds/vt?gd=true&id=1UdlFUBKc9L6TJvcoQQLMOiFl6aFPr7mqC65HA3t6T48&v=4&s=AMedNnoAAAAAWNGCGgeaE3pdAEGBi_lMRn67Gf-VlBcr&sz=s220',
+    'title': 'SVCS-273-Inaccessible',
+    'userPermission': {'etag': '"bcIyJ9A3gXa8oTYmz6nzAjQd-lY/Piz46J7yxWVhXviUMa4qfSmK2lE"',
+                       'id': 'me',
+                       'kind': 'drive#permission',
+                       'role': 'reader',
+                       'selfLink': 'https://www.googleapis.com/drive/v2/files/1UdlFUBKc9L6TJvcoQQLMOiFl6aFPr7mqC65HA3t6T48/permissions/me',
+                       'type': 'user'},
+    'version': '45438',
+    'writersCanShare': True
+}
 
 docs_file_metadata = {
     'modifiedByMeDate': '2015-02-23T18:00:56.343Z',
@@ -320,4 +381,22 @@ revisions_list_empty = {
     'etag': '"zWM2D6PBtLRQKuDNbaQNSNEy5BE/PeANBe5F3yk-YAzsoQO4pYPA5W8"',
     'selfLink': 'https://www.googleapis.com/drive/v2/files/1GwpK7IozbO01RiyC5aPd66v7ShEViqggvT6ur5_pZMFo-ZzQHOgkyoU3ztjf0ytKt0HSdvUg6O2nmoYR/revisions',
     'items': []
+}
+
+error_403 = {
+    'error': {
+        'code': 403,
+        'errors': [
+            {
+                'domain': 'global',
+                'location': 'Authorization',
+                'locationType': 'header',
+                'message': 'The authenticated user does not have the required access to the file '
+                                  '1UdlFUBKc9L6TJvcoQQLMOiFl6aFPr7mqC65HA3t6T48',
+                'reason': 'userAccess'
+            }
+        ],
+        'message': 'The authenticated user does not have the required access to the file '
+            '1UdlFUBKc9L6TJvcoQQLMOiFl6aFPr7mqC65HA3t6T48'
+    }
 }
