@@ -1,3 +1,5 @@
+from waterbutler.core import exceptions
+
 DOCS_FORMATS = [
     {
         'mime_type': 'application/vnd.google-apps.document',
@@ -61,4 +63,9 @@ def get_download_extension(metadata):
 
 def get_export_link(metadata):
     format = get_format(metadata)
-    return metadata['exportLinks'][format['type']]
+    if metadata.get('exportLinks'):
+        return metadata['exportLinks'][format['type']]
+    else:
+        raise exceptions.DownloadError('GDrive did not provide a download link. You may not have'
+                                       ' permission to render this file through the Open Science'
+                                       ' Framework. To preview this file click <a href={}>here</a>.'.format(metadata['embedLink']), code=403)

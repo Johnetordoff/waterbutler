@@ -268,10 +268,14 @@ class GoogleDriveProvider(provider.BaseProvider):
         async with self.request(
             'GET',
             self.build_url('files', path.identifier, 'revisions'),
-            expects=(200, ),
+            expects=(200, 403),
             throws=exceptions.RevisionsError,
         ) as resp:
             data = await resp.json()
+
+        if data.get('error'):
+            raise exceptions.RevisionsError(data['error']['message'], code=data['error']['code'])
+
         if data['items']:
             return [
                 GoogleDriveRevision(item)
