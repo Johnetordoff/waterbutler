@@ -194,7 +194,10 @@ class BoxProvider(provider.BaseProvider):
         ) as resp:
             data = await resp.json()
 
-        return self._serialize_item(data, dest_path), dest_path.identifier is None
+        meta = self._serialize_item(data, dest_path)
+        meta._children = [self._serialize_item(item, None) for item in data['item_collection']['entries']]
+
+        return meta, dest_path.identifier is None
 
     async def intra_move(self, dest_provider, src_path, dest_path):
         if dest_path.identifier is not None and str(dest_path).lower() != str(src_path).lower():
@@ -218,7 +221,10 @@ class BoxProvider(provider.BaseProvider):
         ) as resp:
             data = await resp.json()
 
-        return self._serialize_item(data, dest_path), dest_path.identifier is None
+        meta = self._serialize_item(data, dest_path)
+        meta._children = [self._serialize_item(item, None) for item in data['item_collection']['entries']]
+
+        return meta, dest_path.identifier is None
 
     @property
     def default_headers(self):

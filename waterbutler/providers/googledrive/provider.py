@@ -138,7 +138,34 @@ class GoogleDriveProvider(provider.BaseProvider):
         ) as resp:
             data = await resp.json()
 
-        return GoogleDriveFileMetadata(data, dest_path), dest_path.identifier is None
+        if src_path.is_file:
+            metadata, created = GoogleDriveFileMetadata(data, dest_path), dest_path.identifier is None
+        else:
+            metadata, created = await self.get_folder_metadata(data, src_path, dest_path)
+
+        return metadata, created
+
+    async def get_folder_metadata(self, data, src_path, dest_path):
+        metadata = GoogleDriveFolderMetadata(data, dest_path)
+
+        async with self.request(
+            'GET',
+            self.build_url('files', q="'{}' in parents".format(src_path.identifier)),
+            expects=(200, ),
+            throws=exceptions.MetadataError,
+        ) as resp:
+            children_json = await resp.json()
+
+        metadata._children = []
+        for item in children_json['items']:
+            if item['mimeType'] == self.FOLDER_MIME_TYPE:
+                item = GoogleDriveFolderMetadata(item, dest_path.child(item['title']))
+            else:
+                item = GoogleDriveFileMetadata(item, dest_path.child(item['title']))
+
+            metadata._children.append(item)
+
+        return metadata, dest_path.identifier is None
 
     async def intra_copy(self, dest_provider, src_path, dest_path):
         self.metrics.add('intra_copy.destination_exists', dest_path.identifier is not None)
@@ -159,7 +186,13 @@ class GoogleDriveProvider(provider.BaseProvider):
             throws=exceptions.IntraMoveError,
         ) as resp:
             data = await resp.json()
-        return GoogleDriveFileMetadata(data, dest_path), dest_path.identifier is None
+
+        if src_path.is_file:
+            metadata, created = GoogleDriveFileMetadata(data, dest_path), dest_path.identifier is None
+        else:
+            metadata, created = await self.get_folder_metadata(data, src_path, dest_path)
+
+        return metadata, created
 
     async def download(self, path, revision=None, range=None, **kwargs):
         if revision and not revision.endswith(settings.DRIVE_IGNORE_VERSION):
